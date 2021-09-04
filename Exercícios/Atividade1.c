@@ -21,28 +21,34 @@ void selectionSort (int vector[], int n) {
     for (int i=0; i<n; i++) {
         min = i;
         for (int j=i+1; j<n; j++) {
-            printf ("C %i %i\n", i, j);
+            printf ("C %i %i\n", min, j);
             if (vector[j] < vector[min])
                 min = j;
         }
-        printf ("T %i %i\n", i, min);
-        swap (&vector[i], &vector[min]);
+        if (i != min) {
+            printf ("T %i %i\n", i, min);
+            swap (&vector[i], &vector[min]);
+        }
     }
 }
 
 void bubbleSort (int vector[], int n) {
+    int key, min = n;
     for (int i=0; i<n; i++) {
-        for (int j=0; j<n-i; j++) {
-            printf ("C %i %i\n", j, j+1);
-            if (vector[j] > vector[j+1]) {
-                printf ("T %i %i\n", j, j+1);
-                swap (&vector[j], &vector[j+1]);
+        key = 0;
+        for (int j=1; j<min; j++) {
+            printf ("C %i %i\n", j-1, j);
+            if (vector[j-1] > vector[j]) {
+                printf ("T %i %i\n", j-1, j);
+                swap (&vector[j-1], &vector[j]);
+                key = j;
             }
         }
+        min = key;
     }
 }
 
-int main (int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     
     int n;
     char sortType[MAX];
@@ -56,12 +62,11 @@ int main (int argc, char *argv[]) {
     }
 
     if (strcmp(sortType, "selecao") == 0) {
-        printf ("\nSelectionSort\n");
         selectionSort(vector, n);
     } else if (strcmp(sortType, "bolha") == 0) {
         bubbleSort(vector, n);
     }
 
-    printVector(vector, size);
+    printVector(vector, n);
     return 0;
 }
