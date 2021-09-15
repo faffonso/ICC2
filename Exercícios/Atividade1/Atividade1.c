@@ -13,7 +13,6 @@ void printVector (int vector[], int n){
     for (int i=0; i<n; i++) {
         printf ("%i ", vector[i]);
     }
-    printf("\n");
 }
 
 void selectionSort (int vector[], int n) {
@@ -21,12 +20,12 @@ void selectionSort (int vector[], int n) {
     for (int i=0; i<n; i++) {
         min = i;
         for (int j=i+1; j<n; j++) {
-            printf ("C %i %i\n", min, j);
+            printf ("C %i %i \n", min, j);
             if (vector[j] < vector[min])
                 min = j;
         }
         if (i != min) {
-            printf ("T %i %i\n", i, min);
+            printf ("T %i %i \n", i, min);
             swap (&vector[i], &vector[min]);
         }
     }
@@ -37,9 +36,9 @@ void bubbleSort (int vector[], int n) {
     for (int i=0; i<n; i++) {
         key = 0;
         for (int j=1; j<min; j++) {
-            printf ("C %i %i\n", j-1, j);
+            printf ("C %i %i \n", j-1, j);
             if (vector[j-1] > vector[j]) {
-                printf ("T %i %i\n", j-1, j);
+                printf ("T %i %i \n", j-1, j);
                 swap (&vector[j-1], &vector[j]);
                 key = j;
             }
