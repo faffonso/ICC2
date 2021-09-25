@@ -1,24 +1,15 @@
 #include <stdio.h>
 
+int countChanges, countComparison;
+
 void swap (int *a, int *b) {
     int aux = *a;
     *a = *b;
     *b = aux;
 }
 
-void printMatrix (int n, int m[], int max, int matrix[n][max]){
-    for (int i=0; i<n; i++) {
-        for (int j=0; j<m[i]; j++) {
-            printf ("%i ", matrix[i][j]);
-        }
-        printf ("\n");
-    }
-}
-
 void insertionSort (int vector[], int n) {
-    int countChanges = 0,
-    countComparison = 0,
-    left, j;
+    int left, j;
     for (int i=1; i<n; i++) {
         j = i;
         left = i - 1;
@@ -33,7 +24,6 @@ void insertionSort (int vector[], int n) {
         countComparison++;
         countChanges += 2;
     }
-    printf ("I %i %i %i\n", n, countChanges, countComparison);
 }
 
 void merge (int vector[], int begin, int mid, int end) {
@@ -42,6 +32,8 @@ void merge (int vector[], int begin, int mid, int end) {
     int vectorAux[end - begin + 1];
     int i = 0;
     while (aux1 <= mid && aux2 <= end) {
+        countComparison++;
+        countChanges++;
         if (vector[aux1] <= vector[aux2]) {
             vectorAux[i] = vector[aux1];
             aux1++;
@@ -54,19 +46,22 @@ void merge (int vector[], int begin, int mid, int end) {
     }
 
     while (aux1 <= mid) {
+        countChanges ++;
         vectorAux[i] = vector[aux1];
         i++;
         aux1++;
     }
     
     while (aux2 <= end) {
+        countChanges++;
         vectorAux[i] = vector[aux2];
         i++;
         aux2++;
     }
-
+    
     for (int i=begin, j=0; i<=end; i++, j++) {
         vector[i] = vectorAux[j];
+        countChanges ++;
     }
 }
 
@@ -90,17 +85,23 @@ int main (int argc, char *argv[]) {
             max = tamVector[i];
     }
 
-    int matrix[numVector][max];
+    int matrixA[numVector][max];
+    int matrixB[numVector][max];
     for (int i=0; i<numVector; i++) {
         for (int j=0; j<tamVector[i]; j++){
-            scanf("%i", &matrix[i][j]);
+            scanf("%i", &matrixA[i][j]);
+            matrixB[i][j] = matrixA[i][j];
         }
     }
 
-    printMatrix(numVector, tamVector, max, matrix);
     for (int i=0; i<numVector; i++) {
-        //insertionSort(matrix[i], tamVector[i]);
-        mergeSort(matrix[i], 0, tamVector[i] - 1);
+        countChanges = 0, countComparison = 0;
+        insertionSort(matrixA[i], tamVector[i]);
+        printf ("I %i %i %i\n", tamVector[i], countChanges, countComparison);
+
+        countChanges = 0, countComparison = 0;
+        mergeSort(matrixB[i], 0, tamVector[i] - 1);
+        printf ("M %i %i %i\n", tamVector[i], countChanges, countComparison);
     }
-    printMatrix(numVector, tamVector, max, matrix);
+    return 0;
 }
